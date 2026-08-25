@@ -40,6 +40,22 @@ def get_latest(dataset: str, frequency: str, facets: dict[str, str]) -> dict:
     return rows[0]
 
 
+def get_legacy_series(series_id: str) -> dict:
+    """Read an EIA v1 series through EIA's supported v2 compatibility route."""
+    api_key = os.environ.get("EIA_API_KEY")
+    if not api_key:
+        raise RuntimeError("EIA_API_KEY is not configured.")
+
+    url = f"{API_ROOT}/seriesid/{series_id}?{urlencode({'api_key': api_key})}"
+    with urlopen(url, timeout=30) as response:
+        payload = json.load(response)
+
+    rows = payload.get("response", {}).get("data", [])
+    if not rows:
+        raise RuntimeError(f"EIA returned no data for {series_id}.")
+    return rows[0]
+
+
 def format_date(value: str) -> str:
     return datetime.strptime(value, "%Y-%m-%d").strftime("%b %-d, %Y")
 
@@ -47,11 +63,7 @@ def format_date(value: str) -> str:
 def main() -> None:
     brent = get_latest("petroleum/pri/spt", "daily", {"series": "RBRTE"})
     wti = get_latest("petroleum/pri/spt", "daily", {"series": "RWTC"})
-    cushing = get_latest(
-        "petroleum/stoc/wstk",
-        "weekly",
-        {"productId": "EPC0", "areaId": "YCUOK"},
-    )
+    cushing = get_legacy_series("PET.WCESTUS1.W")
 
     brent_value = float(brent["value"])
     wti_value = float(wti["value"])
