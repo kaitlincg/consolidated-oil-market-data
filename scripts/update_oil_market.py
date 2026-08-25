@@ -31,7 +31,7 @@ data = {
     "brent_display": chr(36) + "{:,.2f}/bbl".format(float(brent["value"])),
     "wti_display": chr(36) + "{:,.2f}/bbl".format(float(wti["value"])),
     "cushing_display": "{:,.3f}M bbl".format(float(cushing["value"]) / 1000),
-    "as_of_display": "As of: Brent/WTI {} | Cushing week ending {}".format(date_label(brent["period"]), date_label(cushing["period"])),
+    "as_of_display": "As of: {}".format(date_label(brent["period"])),
     "source": "U.S. Energy Information Administration",
     "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
 }
