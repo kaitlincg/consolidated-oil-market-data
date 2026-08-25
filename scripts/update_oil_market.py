@@ -21,22 +21,12 @@ def get_latest(dataset, frequency, facets):
         raise RuntimeError("EIA returned no data for {}.".format(dataset))
     return rows[0]
 
-def get_cushing():
-    key = os.environ.get("EIA_API_KEY")
-    url = "https://api.eia.gov/series/?{}".format(urlencode({"api_key": key, "series_id": "PET.WCESTP11.W"}))
-    with urlopen(url, timeout=30) as response:
-        series = json.load(response).get("series", [])
-    if not series or not series[0].get("data"):
-        raise RuntimeError("EIA returned no Cushing data.")
-    period, value = series[0]["data"][0]
-    return {"period": "{}-{}-{}".format(period[:4], period[4:6], period[6:]), "value": value}
-
 def date_label(value):
     return datetime.strptime(value, "%Y-%m-%d").strftime("%b %-d, %Y")
 
 brent = get_latest("petroleum/pri/spt", "daily", {"series": "RBRTE"})
 wti = get_latest("petroleum/pri/spt", "daily", {"series": "RWTC"})
-cushing = get_cushing()
+cushing = get_latest("petroleum/sum/sndw", "weekly", {"series": "W_EPC0_SAX_YCUOK_MBBL"})
 data = {
     "brent_display": chr(36) + "{:,.2f}/bbl".format(float(brent["value"])),
     "wti_display": chr(36) + "{:,.2f}/bbl".format(float(wti["value"])),
