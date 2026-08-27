@@ -21,9 +21,6 @@ def get_latest(dataset, frequency, facets):
         raise RuntimeError("EIA returned no data for {}.".format(dataset))
     return rows[0]
 
-def date_label(value):
-    return datetime.strptime(value, "%Y-%m-%d").strftime("%b %-d, %Y")
-
 brent = get_latest("petroleum/pri/spt", "daily", {"series": "RBRTE"})
 wti = get_latest("petroleum/pri/spt", "daily", {"series": "RWTC"})
 cushing = get_latest("petroleum/sum/sndw", "weekly", {"series": "W_EPC0_SAX_YCUOK_MBBL"})
@@ -31,7 +28,6 @@ data = {
     "brent_display": chr(36) + "{:,.2f}/bbl".format(float(brent["value"])),
     "wti_display": chr(36) + "{:,.2f}/bbl".format(float(wti["value"])),
     "cushing_display": "{:,.3f}M bbl".format(float(cushing["value"]) / 1000),
-    "as_of_display": "As of: {}".format(date_label(brent["period"])),
     "source": "U.S. Energy Information Administration",
     "generated_at": datetime.now(timezone.utc).replace(microsecond=0).isoformat(),
 }
