@@ -3,8 +3,8 @@ name: Update oil market data
 on:
   workflow_dispatch:
   schedule:
-    # 7:00 p.m. CDT / 6:00 p.m. CST, Monday through Friday.
-    - cron: "0 0 * * 2-6"
+    # 7:00 p.m. CDT / 6:00 p.m. CST, every day.
+    - cron: "0 0 * * *"
 
 permissions:
   contents: write
