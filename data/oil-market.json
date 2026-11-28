@@ -1,10 +1,10 @@
 {
   "brent_display": "$91.80/bbl",
-  "wti_display": "$89.53/bbl",
-  "cushing_display": "26.147M bbl",
+  "wti_display": "$82.24/bbl",
+  "cushing_display": "25.613M bbl",
   "brent_period": "2026-11-24",
-  "wti_period": "2026-11-17",
-  "cushing_period": "2026-11-13",
+  "wti_period": "2026-11-24",
+  "cushing_period": "2026-11-20",
   "source": "U.S. Energy Information Administration",
-  "generated_at": "2026-11-27T05:39:00+00:00"
+  "generated_at": "2026-11-28T05:16:45+00:00"
 }
